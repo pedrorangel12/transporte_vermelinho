@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 🚌 SISTEMA VERMELINHO - INTERFACE GRÁFICA PROFISSIONAL
-Pathfinders Solutions - GUI Moderna para o Sistema de Transporte de Maricá
+Busync - GUI Moderna para o Sistema de Transporte de Maricá
 """
 
 import tkinter as tk
@@ -368,7 +368,7 @@ class InterfaceProfissional:
         
         # Subtítulo
         subtitle_label = tk.Label(title_frame,
-                                 text="Pathfinders Solutions - Transporte Público Inteligente de Maricá/RJ",
+                                 text="Busync - Transporte Público Inteligente de Maricá/RJ",
                                  font=('Arial', 12),
                                  fg='#BDC3C7', bg='#2C3E50')
         subtitle_label.pack()
