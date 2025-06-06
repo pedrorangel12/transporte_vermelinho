@@ -445,3 +445,74 @@ if __name__ == "__main__":
         print("❌ Erro: sistema_backend.py não encontrado!")
     except Exception as e:
         print(f"❌ Erro: {e}")
+
+        if __name__ == "__main__":
+            print("🧪 Testando Visualizador de Grafo...")
+    
+    try:
+        from sistema_backend import SistemaVermelhinho
+        
+        sistema = SistemaVermelhinho()
+        visualizador = VisualizadorGrafo(sistema)
+
+        # Mostrar todos os IDs dos pontos disponíveis
+        print("📍 Pontos disponíveis no sistema:")
+        for ponto_id in sistema.pontos:
+            print(f" - {ponto_id}")
+        
+        # Escolher dois pontos válidos manualmente
+        origem = list(sistema.pontos.keys())[0]
+        destino = list(sistema.pontos.keys())[1]
+        print(f"\n🔄 Visualizando rota entre: {origem} -> {destino}")
+
+        # Criar visualização sem rota
+        visualizador.criar_visualizacao()
+        visualizador.salvar_visualizacao("grafo_completo.png")
+        
+        # Criar visualização com rota válida
+        fig = visualizador.visualizar_rota(origem, destino)
+        if fig:
+            visualizador.salvar_visualizacao("grafo_com_rota.png")
+        
+        # Gerar gráfico de complexidade
+        fig_complexidade = criar_grafico_complexidade()
+        fig_complexidade.savefig("analise_complexidade.png", dpi=300, bbox_inches='tight')
+        
+        print("\n✅ Visualizações criadas com sucesso!")
+        print("📊 Arquivos gerados:")
+        print("   - grafo_completo.png")
+        print("   - grafo_com_rota.png")
+        print("   - analise_complexidade.png")
+        
+    except ImportError:
+        print("❌ Erro: sistema_backend.py não encontrado!")
+    except Exception as e:
+        print(f"❌ Erro: {e}")
+
+
+import matplotlib.pyplot as plt
+
+def visualizar_grafo(grafo, caminho=None):
+    """
+    Exibe o grafo usando matplotlib, destacando a rota se fornecida.
+    """
+    pos = nx.get_node_attributes(grafo, 'pos')
+    labels = nx.get_node_attributes(grafo, 'nome')
+    
+    plt.figure(figsize=(14, 10))
+    plt.title("🗺️ Rede de Transporte - Sistema Vermelinho (Maricá)", fontsize=16)
+    
+    # Desenhar nós e arestas normais
+    nx.draw_networkx_nodes(grafo, pos, node_size=700, node_color='skyblue', edgecolors='black')
+    nx.draw_networkx_edges(grafo, pos, width=2, alpha=0.6)
+    nx.draw_networkx_labels(grafo, pos, labels, font_size=10)
+
+    # Se houver rota calculada, destacar em vermelho
+    if caminho and len(caminho) > 1:
+        edges_rota = list(zip(caminho[:-1], caminho[1:]))
+        nx.draw_networkx_edges(grafo, pos, edgelist=edges_rota, width=4, edge_color='red')
+        nx.draw_networkx_nodes(grafo, pos, nodelist=caminho, node_size=800, node_color='red')
+    
+    plt.axis('off')
+    plt.tight_layout()
+    plt.show()
